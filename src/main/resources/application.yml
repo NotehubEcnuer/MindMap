@@ -1,0 +1,5 @@
+spring:
+  data:
+    mongodb:
+      host: 120.77.176.55
+      database: notehub
