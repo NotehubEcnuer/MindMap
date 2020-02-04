@@ -30,6 +30,7 @@ public class UserController {
      * name: "xxx" 字符串，字符串为json格式
      * 不传NoteId，后台则处理为目录
      * 举例：
+     * 目录格式可以不传leaf，默认为false，可以不传noteId，默认为null
      * {
      *           "children": [
      *              {
@@ -91,7 +92,8 @@ public class UserController {
      * userId:
      * name: json格式的字符串
      * num: 索引下标，以default为0计数
-     *
+     * 笔记字段必须添加noteId，id可以为标题；leaf需要显示指定为true，最好不要出现children字段
+     * 思维导图展示的时候能够根据leaf区分目录和笔记最佳
      * json字符串格式举例：
      * {
      *           "children": [
