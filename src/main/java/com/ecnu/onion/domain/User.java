@@ -4,10 +4,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author onion
@@ -18,17 +15,24 @@ import java.util.Map;
 public class User {
     @Id
     private String userId;
-    private List<String> collectNotes;
-    private Map<String, Component> collectIndexes;
+    private Set<Note> collectNotes;
+    private List<Composite> collectIndexes;
 
     public User(String userId) {
         this.userId = userId;
-        collectNotes = new ArrayList<>();
-        collectIndexes = new HashMap<>();
+        collectNotes = new HashSet<>();
+        collectIndexes = new ArrayList<>();
     }
 
-    public void add(String name, Component component) {
-        collectIndexes.put(name, component);
+    public void add(Composite component) {
+        collectIndexes.add(component);
+    }
+
+    public void removeCollectNotes(String noteId) {
+        collectNotes.removeIf(e->noteId.equals(e.getNoteId()));
+    }
+    public void set(int num, Composite composite) {
+        collectIndexes.set(num, composite);
     }
 
 }

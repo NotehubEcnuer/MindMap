@@ -1,6 +1,7 @@
 package com.ecnu.onion.domain;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,19 +11,29 @@ import java.util.List;
  * @date 2020/2/3 -7:00 下午
  */
 @Data
-public class Composite implements Component {
-    private Boolean isLeaf;
-    private List<Component> children;
+@NoArgsConstructor
+public class Composite{
+    private boolean leaf;
+    private List<Composite> children;
     private String id;
+    private String noteId;
 
     public Composite(String id) {
         this.id = id;
         children = new ArrayList<>();
-        isLeaf = false;
+        leaf = false;
     }
 
-    @Override
-    public void addComponent(Component component) {
+    public Composite(String id, String noteId) {
+        this.id = id;
+        this.noteId = noteId;
+        leaf = true;
+    }
+
+    public void addComponent(Composite component) {
+        if (leaf) {
+            throw new RuntimeException("不是目录");
+        }
         children.add(component);
     }
 }
