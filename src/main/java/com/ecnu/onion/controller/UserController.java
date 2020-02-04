@@ -7,7 +7,6 @@ import com.ecnu.onion.domain.Note;
 import com.ecnu.onion.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Iterator;
@@ -21,8 +20,6 @@ import java.util.Map;
 @RestController
 @Slf4j
 public class UserController {
-    @Autowired
-    private MongoTemplate mongoTemplate;
     @Autowired
     private UserDao userDao;
 
@@ -168,7 +165,7 @@ public class UserController {
      * @param noteId
      * @return
      */
-    @GetMapping("cancelCollectNote")
+    @GetMapping("/cancelCollectNote")
     public Object cancelCollectNote(@RequestParam String userId, @RequestParam String noteId) {
         User user = userDao.findById(userId).get();
         List<Composite> list = user.getCollectIndexes();
@@ -179,6 +176,18 @@ public class UserController {
         user.removeCollectNotes(noteId);
         log.info("user:{}", user);
         return userDao.save(user);
+    }
+
+    @GetMapping("/findAllCollectNotes")
+    public Object findAllCollectNotes(@RequestParam String userId) {
+        User user = userDao.findById(userId).get();
+        return user.getCollectNotes();
+    }
+
+    @GetMapping("/findAllIndexes")
+    public Object findAllIndexes(@RequestParam String userId) {
+        User user = userDao.findById(userId).get();
+        return user.getCollectIndexes();
     }
 
     private void removeCollectNote(String noteId, Composite composite) {
